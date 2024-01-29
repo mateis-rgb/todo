@@ -9,9 +9,16 @@ import './App.css';
 
 const App = () => {
 	const [todos, setTodos] = useState<TodoType[]>([]);
+	const storage = localStorage.getItem("todos");
+
+	if (storage) {
+		setTodos(JSON.parse(storage));
+	}
 
 	const addTodo = (todo: TodoType) => {
 		const newTodos: TodoType[] = [...todos, todo];
+
+		localStorage.setItem("todos", JSON.stringify(newTodos));
 
 		setTodos(newTodos);
 	}
@@ -21,15 +28,19 @@ const App = () => {
 
 		newTodos[index].isCompleted = true;
 
+		localStorage.setItem("todos", JSON.stringify(newTodos));
+
 		setTodos(newTodos);
 	}
 
 	const removeTodo = (index: number) => {
-		const newTodo: TodoType[] = [...todos];
+		const newTodos: TodoType[] = [...todos];
 
-		newTodo.splice(index, 1);
+		newTodos.splice(index, 1);
 
-		setTodos(newTodo);
+		localStorage.setItem("todos", JSON.stringify(newTodos));
+
+		setTodos(newTodos);
 	}
 
 	return (
